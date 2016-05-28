@@ -4,8 +4,10 @@
 class Game
   attr_reader :player_1, :player_2
 
-  def initialize(player_1, player_2)
+  def initialize(player_1)
     # initialize the instance variables
+    @player_1 = player_1
+    @player_2 = player_2
   end
 
   def generate_question
@@ -19,25 +21,38 @@ class Game
 
   def verify_answer
     if gets.chomp.to_i == @number1 + @number2
-     puts "get points!!"
+     @player_1.gain_points
     else
-     puts "lose life"
+     @player_1.lose_lives
     end
   end
 end
 
 
 class Player
-  # attr_reader :name, :lives, :points
-  
+  attr_reader :name, :lives, :points
+
   def initialize(name)
     # initialize the instance variables
+    @name = name
+    @lives = 3
+    @points = 0
   end
 
   def gain_points
+     @points += 1
+     puts "#{@name} get points (points=#{@points})!!"
+
+    # if game.verify_answer
+    #   ....
+    # end
+    # TODO: increment points
   end
 
   def lose_lives
+    @lives -= 1
+    puts "#{@name} lose life (lives=#{@lives})!!"
+
   end
 
 end
@@ -46,15 +61,17 @@ end
 # # 1. ask player one for name
 
 player_1 = Player.new('ann')
-# # 2. ask player 2 for name
-player_2 = Player.new('bob')
+# # # 2. ask player 2 for name
+# player_2 = Player.new('bob')
 
-game = Game.new(player_1, player_2)
+game = Game.new(player_1)
 
-game.generate_question
+begin 
+  game.generate_question
 
-# get the answer from the player
+  # get the answer from the player
+  # the verify answer should tell you whether game finished or not
+  game.verify_answer
+end while player_1.lives > 0
+#@lives = 0
 
-game.verify_answer
-
-# the verify answer should tell you whether game finished or not
