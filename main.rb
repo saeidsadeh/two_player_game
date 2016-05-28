@@ -9,15 +9,16 @@ class Game
   end
 
   def generate_question
-    # number = rand(1...20)
+    @number1 = rand(1...20)
+    @number2 = rand(1...20)
+    puts "what #{@number1} + #{@number2} equals to?"
     # case number
     #   whe
     # end
-    puts "what 3 + 5 equals to?"
   end
 
   def verify_answer
-    if gets.chomp.to_i == 8
+    if gets.chomp.to_i == @number1 + @number2
      puts "get points!!"
     else
      puts "lose life"
@@ -27,8 +28,8 @@ end
 
 
 class Player
-  attr_reader :name, :lives, :points
-
+  # attr_reader :name, :lives, :points
+  
   def initialize(name)
     # initialize the instance variables
   end
@@ -46,7 +47,6 @@ end
 
 player_1 = Player.new('ann')
 # # 2. ask player 2 for name
-
 player_2 = Player.new('bob')
 
 game = Game.new(player_1, player_2)
