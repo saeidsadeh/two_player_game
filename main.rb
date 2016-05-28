@@ -4,27 +4,34 @@
 class Game
   attr_reader :player_1, :player_2
 
-  def initialize(player_1)
+  def initialize(player_1, player_2)
     # initialize the instance variables
     @player_1 = player_1
     @player_2 = player_2
+    @player_now = @player_1
   end
 
   def generate_question
     @number1 = rand(1...20)
     @number2 = rand(1...20)
-    puts "what #{@number1} + #{@number2} equals to?"
-    # case number
-    #   whe
-    # end
+
+    puts "#{@player_now.name}, what #{@number1} + #{@number2} equals to?"
   end
 
   def verify_answer
     if gets.chomp.to_i == @number1 + @number2
-     @player_1.gain_points
+     @player_now.gain_points
     else
-     @player_1.lose_lives
+     @player_now.lose_lives
     end
+
+    if @player_now == @player_1
+       @player_now = @player_2
+    else
+      @player_now = @player_1
+    end
+
+
   end
 end
 
@@ -42,11 +49,6 @@ class Player
   def gain_points
      @points += 1
      puts "#{@name} get points (points=#{@points})!!"
-
-    # if game.verify_answer
-    #   ....
-    # end
-    # TODO: increment points
   end
 
   def lose_lives
@@ -62,9 +64,9 @@ end
 
 player_1 = Player.new('ann')
 # # # 2. ask player 2 for name
-# player_2 = Player.new('bob')
+player_2 = Player.new('bob')
 
-game = Game.new(player_1)
+game = Game.new(player_1, player_2)
 
 begin 
   game.generate_question
@@ -72,6 +74,5 @@ begin
   # get the answer from the player
   # the verify answer should tell you whether game finished or not
   game.verify_answer
-end while player_1.lives > 0
-#@lives = 0
+end while player_1.lives > 0 && player_2.lives > 0
 
